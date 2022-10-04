@@ -1,15 +1,5 @@
-const { default: mongoose } = require("mongoose")
-
 const mongoose = require('mongoose');
 
-const db = process.env.DATABASE ;   //connecting database
+var conn = mongoose.createConnection('mongodb+srv://Somesh:39XyNtB3xgVSqfE@cluster0.lrygfjr.mongodb.net/Sample?retryWrites=true&w=majority', {useNewUrlParser : true, useUnifiedTopology : true})
 
-mongoose.connect(db, {
-    useNewUrlParser : true,
-    useUnifiedTopology : true
-}).then(()=>{
-    console.log("Connection Successfull")
-}).catch((e)=>{
-    console.log(e);
-})
-
+module.exports=conn;
