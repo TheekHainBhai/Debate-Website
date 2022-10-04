@@ -12,4 +12,3 @@ const topicSchema = new mongoose.Schema({
 });
 
 module.exports = conn2.model('Topics',topicSchema) 
-

@@ -35,10 +35,6 @@ const userSchema = new mongoose.Schema({
     ]
 });
 
-//model
-var ModelA = conn.model('Users',userSchema)
-
-
 
 //Hashing Password to Secure
 userSchema.pre('save', async function(next){
@@ -61,6 +57,5 @@ userSchema.methods.generateToken = async function(){
 }
 
 //Create Model
-const Users = new mongoose.model("USER", userSchema);
+module.exports = conn.model("Users", userSchema);
 
-module.exports = Users;
