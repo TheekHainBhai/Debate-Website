@@ -2,7 +2,14 @@ const mongoose = require("mongoose");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// User Schema Or Document Structure
+
+//importing databse 
+const conn = require("../db/conn");
+
+
+//Stored in Sample DB
+
+//// User Schema
 const userSchema = new mongoose.Schema({
     username : {
         type : String,
@@ -26,7 +33,12 @@ const userSchema = new mongoose.Schema({
              }
         }
     ]
-})
+});
+
+//model
+var ModelA = conn.model('Users',userSchema)
+
+
 
 //Hashing Password to Secure
 userSchema.pre('save', async function(next){
@@ -49,3 +61,6 @@ userSchema.methods.generateToken = async function(){
 }
 
 //Create Model
+const Users = new mongoose.model("USER", userSchema);
+
+module.exports = Users;
