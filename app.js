@@ -17,7 +17,11 @@ require('./db/conn')
 require('./db/conn2')
 
 const Users = require('./models/userSchema')
-const Topics = require('./models/topicSchema')
+const Topics = require('./models/topicSchema');       
+const TopicPros = require('./models/topicPros')     //require topic pros
+const TopicCons = require('./models/topicCons')     //require topic cons
+
+
 const port = process.env.PORT;
 
 
@@ -119,16 +123,61 @@ app.post('/loginApi', async(req,res)=>{
 app.post('/topicsApi', async (req,res)=>{
     try {
         //Get body or Data
-        const comment = req.body.comment;
+        const title = req.body.title;
 
         const  createTopic = new Topics({
-            comment : comment   //this will save the comment from req in the topicSchema(Database) 
+            title : title   //this will save the comment from req in the topicSchema(Database) 
         });
 
         //Save Method is Used to Create User or Insert User
         //But Before Saving or Inserting, Password will Hash
         //Because of Hashing, It will save to DB
         const created = await createTopic.save();
+        console.log(created);
+        res.status(200).send("Created");
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+
+// topicPros Insert API
+app.post('/topicProsApi', async (req,res)=>{
+    try {
+        //Get body or Data
+        const comment = req.body.comment;
+
+        const  createPros = new TopicPros({
+            comment : comment   //this will save the comment from req in the topicSchema(Database) 
+        });
+
+        //Save Method is Used to Create User or Insert User
+        //But Before Saving or Inserting, Password will Hash
+        //Because of Hashing, It will save to DB
+        const created = await createPros.save();
+        console.log(created);
+        res.status(200).send("Created");
+
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+// topicCons Insert API
+app.post('/topicConsApi', async (req,res)=>{
+    try {
+        //Get body or Data
+        const comment = req.body.comment;
+
+        const  createCons = new TopicCons({
+            comment : comment   //this will save the comment from req in the topicSchema(Database) 
+        });
+
+        //Save Method is Used to Create User or Insert User
+        //But Before Saving or Inserting, Password will Hash
+        //Because of Hashing, It will save to DB
+        const created = await createCons.save();
         console.log(created);
         res.status(200).send("Created");
 
