@@ -187,6 +187,22 @@ app.post('/topicConsApi', async (req,res)=>{
 })
     
 
+//SearchApi
+app.get('/searchApi/:title',(req,res)=>{
+        Topics.find(req.params)
+        .then(result=>{    //if found store the data in result var and display 
+            res.status(200).json({     
+                userResult:result
+            });
+        })
+        .catch(error=>{    //if error occurs send error in res 
+            console.log(error)
+            res.status(500).json({
+                error:error
+            })
+        })
+})
+
 //Run Server
 app.listen(port,()=>{
     console.log("Server is Listening")
