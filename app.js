@@ -31,16 +31,22 @@ app.get("/",(req,res)=>{
     res.send("Hello World")
 })
 
-//Registration
-app.post('/register', async(req,res)=>{
+//RegistrationAPI
+app.post('/registerApi', async(req,res)=>{
     try {
         //Get body or Data
+        const firstname = req.body.firstname;
+        const lastname = req.body.lastname;
         const username = req.body.username;
+        const gender = req.body.gender;
         const email = req.body.email;
         const password = req.body.password;
 
         const  createUser = new Users({
+            firstname : firstname,
+            lastname : lastname,
             username : username,   //this will save the username from req in the userSchema(Database) 
+            gender : gender,
             email : email,
             password : password
         });
@@ -57,7 +63,60 @@ app.post('/register', async(req,res)=>{
     }
 })
 
-app.post('/test', async (req,res)=>{
+//LoginAPI User
+app.post('/loginApi', async(req,res)=>{
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+    
+        //FInd User if Exist 
+        const user = await Users.findOne({email : email});
+        if(user){
+            //Verify Password
+            const isMatch = await bcryptjs.compare(password, user.password)
+            
+            if(isMatch){
+                // Generate Token Which is Define in User Schema
+                const token = await user.generateToken();
+                res.cookie("jwt", token, {
+                    // Expires Token in 24 hrs
+                    expires : new Date(Date.now() + 86400000),
+                    httpOnly : true
+                })
+                res.status(200).send("LoggedIn");
+                console.log(user);
+            }else{
+                res.status(400).send("Invalid Credentials");
+            }
+        }else{
+            res.status(400).send("Invalid Credentials");
+        }
+    
+    } catch (error) {
+        res.status(400).send(error);
+    }
+    })
+
+    
+    //03.10.22
+    //API to retrieve all the users
+    app.get('/getusers',(req,res)=>{
+        Users.find()
+        .then(result=>{    //if found store the data in result var and display 
+            res.status(200).json({     
+                UserData:result
+            });
+        })
+        .catch(error=>{    //if error occurs send error in res 
+            console.log(error)
+            res.status(500).json({
+                error:error
+            })
+        })
+        })
+
+//Topics Insert API
+app.post('/topicsApi', async (req,res)=>{
     try {
         //Get body or Data
         const comment = req.body.comment;
@@ -77,6 +136,7 @@ app.post('/test', async (req,res)=>{
         res.status(400).send(error)
     }
 })
+    
 
 //Run Server
 app.listen(port,()=>{

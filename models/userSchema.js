@@ -11,10 +11,25 @@ const conn = require("../db/conn");
 
 //// User Schema
 const userSchema = new mongoose.Schema({
+    firstname : {
+        type : String,
+        required : true,
+        unique : false
+    },
+    lastname : {
+        type : String,
+        required : true,
+        unique : false
+    },
     username : {
         type : String,
         required : true,
         unique : true
+    },
+    gender : {
+        type : String,
+        required : true,
+        unique :  false
     },
     email : {
         type: String,
@@ -23,7 +38,8 @@ const userSchema = new mongoose.Schema({
     },
     password : {
         type : String,
-        required : true
+        required : true,
+        unique :  false
     },
     tokens : [
         {
