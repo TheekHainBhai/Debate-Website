@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Users = require('./models/userSchema')
+const Users = require('../models/userSchema')
 
 const Authenticate = async (req,res,next)=>{
     try {
@@ -20,7 +20,7 @@ const Authenticate = async (req,res,next)=>{
 
     } catch (error) {
         res.status(401).send("Unauthorized: No token provided")
-        console.logg(error)
+        console.log(error)
     }
 }
 
