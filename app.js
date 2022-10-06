@@ -19,12 +19,13 @@ dotenv.config({path : './config.env'});
 require('./db/conn')
 require('./db/conn2')
 
-//we link the router(loginAPI,registerAPI) to make our route easy
+//to fix cors error
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
- })
+})
+//we link the router(loginAPI,registerAPI) to make our route easy
 app.use(require('./router/auth'));
 
 const Users = require('./models/userSchema')
