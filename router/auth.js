@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');   
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -8,6 +9,12 @@ const router = express.Router();
 require('../db/conn')    //importing database
 const Users = require('../models/userSchema');
 const Authenticate = require('../middleware/authenticate');  //for about/to fetch account info pg
+
+router.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+ })
 
 
 //  //RegistrationAPI
@@ -78,7 +85,7 @@ const Authenticate = require('../middleware/authenticate');  //for about/to fetc
 //     })
 
 
-//abousapi
+//aboutapi
 router.get('/about',Authenticate,(req,res)=>{
     console.log('Hello')
     res.send(req.rootUser)

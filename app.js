@@ -3,6 +3,7 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 //Importing ALL Dependencies
 const dotenv = require("dotenv");
 const express = require("express");
+const cors = require('cors');   
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -19,6 +20,11 @@ require('./db/conn')
 require('./db/conn2')
 
 //we link the router(loginAPI,registerAPI) to make our route easy
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+ })
 app.use(require('./router/auth'));
 
 const Users = require('./models/userSchema')
@@ -37,11 +43,11 @@ app.use(cookieParser());
 
 
 app.get("/",(req,res)=>{
-    res.send("Hello World")
+    res.send({"username": "jod0009"})
 })
 
 //RegistrationAPI
-app.post('/registerApi', async(req,res)=>{
+app.post('/registerApi',cors(), async(req,res)=>{
     try {
         //Get body or Data
         const firstname = req.body.firstname;
